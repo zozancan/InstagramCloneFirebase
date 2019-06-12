@@ -6,4 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".UploadActivity">
 
+    <EditText
+        android:id="@+id/etPostComment"
+        android:layout_width="302dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="73dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="23dp"
+        android:ems="10"
+        android:hint="comment"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/ivPost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivPost"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginBottom="27dp"
+        android:onClick="imageSelect"
+        app:layout_constraintBottom_toTopOf="@+id/btnPostUpload"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPostComment"
+        app:srcCompat="@drawable/img_select" />
+
+    <Button
+        android:id="@+id/btnPostUpload"
+        android:layout_width="157dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="182dp"
+        android:background="@color/colorPrimary"
+        android:onClick="upload"
+        android:text="Upload"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPost" />
 </android.support.constraint.ConstraintLayout>
