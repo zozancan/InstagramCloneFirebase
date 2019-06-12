@@ -15,14 +15,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class UploadActivity extends AppCompatActivity {
 
@@ -53,8 +59,51 @@ public class UploadActivity extends AppCompatActivity {
 
     public void upload(View view) {
 
-        StorageReference storageReference = mStorageRef.child("images/image.jpg");
-        storageReference.putFile(selectedImage);
+        UUID uuid = UUID.randomUUID();
+        final String imageName = "images/"+uuid+".jpg";
+
+        StorageReference storageReference = mStorageRef.child(imageName);
+        storageReference.putFile(selectedImage).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                //download url
+
+                StorageReference newRef = FirebaseStorage.getInstance().getReference(imageName);
+                newRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String downloadURL = uri.toString();
+
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String userEmail = user.getEmail();
+
+                        String userComment = postCommentText.getText().toString();
+
+                        UUID uuidPost = UUID.randomUUID();
+                        String uuidString = uuidPost.toString();
+
+                        myRef.child("Posts").child(uuidString).child("useremail").setValue(userEmail);
+                        myRef.child("Posts").child(uuidString).child("comment").setValue(userComment);
+                        myRef.child("Posts").child(uuidString).child("downloadurl").setValue(downloadURL);
+
+                        Toast.makeText(UploadActivity.this, "Post Shared", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getApplicationContext(), FeedActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                //username, comment
+
+            }
+        }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(UploadActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
