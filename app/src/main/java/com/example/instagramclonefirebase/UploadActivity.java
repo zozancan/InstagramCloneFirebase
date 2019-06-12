@@ -32,6 +32,7 @@ public class UploadActivity extends AppCompatActivity {
     DatabaseReference myRef;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
+    Uri selectedImage;
 
 
     @Override
@@ -47,10 +48,13 @@ public class UploadActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        
+
     }
 
     public void upload(View view) {
+
+        StorageReference storageReference = mStorageRef.child("images/image.jpg");
+        storageReference.putFile(selectedImage);
 
     }
 
@@ -80,10 +84,10 @@ public class UploadActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
-            Uri image = data.getData();
+            selectedImage = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 postImage.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
