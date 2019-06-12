@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "156662341242-271rj92j36b685gh8mar32fr3dsfbbcv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.instagramclonefirebase",
+            "certificate_hash": "6965ff2dd252b3d9733e657dc5699e56ca202d2b"
+          }
+        },
+        {
           "client_id": "156662341242-28dprv6nbrjt3ucr9llh3dr0dol25b1h.apps.googleusercontent.com",
           "client_type": 3
         }
