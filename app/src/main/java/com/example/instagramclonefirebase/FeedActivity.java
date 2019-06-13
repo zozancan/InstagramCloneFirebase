@@ -61,7 +61,9 @@ public class FeedActivity extends AppCompatActivity {
                     HashMap<String, String> hashMap = (HashMap<String, String>) ds.getValue();
                     System.out.println("FBV usereemail" + hashMap.get("useremail"));
                     useremailFromFB.add(hashMap.get("useremail"));
-
+                    usercommentFromFB.add(hashMap.get("comment"));
+                    userimageFromFB.add(hashMap.get("downloadurl"));
+                    adapter.notifyDataSetChanged();
                 }
 
             }
